@@ -207,12 +207,24 @@ def main() -> None:
 
     try:
         recommender = load_recommender()
+        demo_mode = False
     except ModelNotReadyError as exc:
-        st.error(str(exc))
-        st.info("Run `python train.py` after downloading the dataset to create the artifacts.")
-        st.stop()
+        st.warning("⚠️ **Demo Mode**: Pre-trained models not available")
+        st.info("""
+        **To use the full system:**
+        1. 📁 Upload your music dataset (CSV files)
+        2. 🚀 Run `python train.py` to train the models
+        3. 🎵 Start making recommendations!
+        
+        **For now, explore the demo interface below:**
+        """)
+        
+        # Create a demo interface
+        demo_mode = True
+        show_demo_interface()
+        return
 
-    # Sidebar controls
+    # Sidebar controls (only if models are loaded)
     with st.sidebar:
         st.header("⚙️ Recommendation Settings")
         
@@ -332,6 +344,106 @@ def main() -> None:
                         st.warning("No recommendations found with current filters. Try adjusting the audio feature ranges.")
         else:
             st.info("No tracks found. Try a different search term.")
+
+
+def show_demo_interface():
+    """Show a demo interface when models are not available"""
+    
+    st.subheader("🚀 Getting Started")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("### 📊 Sample Data Structure")
+        st.code("""
+# Music Info.csv (required)
+track_id,track_name,artist_name,preview_url,energy,valence,tempo
+spotify_123,Bohemian Rhapsody,Queen,https://preview.url,0.8,0.5,144
+spotify_456,Hotel California,Eagles,https://preview.url,0.7,0.6,141
+
+# User Listening History.csv (optional)
+user_id,track_id,playcount
+user_001,spotify_123,45
+user_002,spotify_456,23
+        """, language="csv")
+        
+    with col2:
+        st.markdown("### 🛠️ Setup Instructions")
+        st.markdown("""
+        1. **Prepare Data Files:**
+           - Create `data/Music Info.csv` with your music metadata
+           - Optionally add `data/User Listening History.csv`
+        
+        2. **Train Models:**
+           ```bash
+           python train.py
+           ```
+        
+        3. **Launch App:**
+           ```bash
+           streamlit run app.py
+           ```
+        """)
+    
+    st.subheader("🎯 System Features")
+    
+    feature_col1, feature_col2, feature_col3 = st.columns(3)
+    
+    with feature_col1:
+        st.markdown("""
+        **🎵 Content Filtering**
+        - Audio feature analysis
+        - TF-IDF text processing
+        - Nearest neighbors search
+        - Genre & tag matching
+        """)
+    
+    with feature_col2:
+        st.markdown("""
+        **👥 Collaborative Filtering**
+        - SVD matrix factorization
+        - User behavior patterns
+        - Similarity clustering
+        - Serendipitous discovery
+        """)
+    
+    with feature_col3:
+        st.markdown("""
+        **🔄 Hybrid Approach**
+        - Weighted score blending
+        - Adjustable preferences
+        - Cold start handling
+        - Export capabilities
+        """)
+    
+    st.subheader("📈 Technical Architecture")
+    st.image("https://via.placeholder.com/800x300/1DB954/FFFFFF?text=Hybrid+Recommendation+System+Architecture", 
+             caption="System combines content-based filtering with collaborative filtering for optimal recommendations")
+    
+    st.subheader("🌟 Sample Recommendations")
+    st.markdown("""
+    Once your system is trained, you'll see recommendations like:
+    
+    | Rank | Song | Artist | Similarity Score | Method |
+    |------|------|--------|-----------------|---------|
+    | 1 | Paradise City | Guns N' Roses | 0.892 | 🔄 Hybrid |
+    | 2 | Sweet Child O' Mine | Guns N' Roses | 0.845 | 🎯 Content |
+    | 3 | November Rain | Guns N' Roses | 0.821 | 👥 Collaborative |
+    """)
+    
+    # Add GitHub link
+    st.markdown("---")
+    st.markdown("### 🔗 Links")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("[📚 GitHub Repository](https://github.com/jatin123123/SpotifyHybridRecomandationSystem)")
+    
+    with col2:
+        st.markdown("[📖 Documentation](https://github.com/jatin123123/SpotifyHybridRecomandationSystem#readme)")
+    
+    with col3:
+        st.markdown("[🐛 Report Issues](https://github.com/jatin123123/SpotifyHybridRecomandationSystem/issues)")
 
 
 if __name__ == "__main__":
