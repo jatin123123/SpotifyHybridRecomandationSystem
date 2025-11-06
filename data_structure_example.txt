@@ -1,0 +1,12 @@
+# Example data structure files - replace with your actual data
+
+# Music Info.csv structure (required)
+track_id,track_name,artist_name,preview_url,energy,valence,tempo,instrumentalness,tags_text
+spotify_123,Bohemian Rhapsody,Queen,https://p.scdn.co/preview/...,0.8,0.5,144,0.1,"rock,classic rock,70s"
+spotify_456,Hotel California,Eagles,https://p.scdn.co/preview/...,0.7,0.6,141,0.15,"rock,classic rock,guitar"
+
+# User Listening History.csv structure (optional)
+user_id,track_id,playcount
+user_001,spotify_123,45
+user_001,spotify_456,23
+user_002,spotify_123,67
