@@ -55,8 +55,14 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Clean up workspace (optional but helps avoid 409 errors)
+        run: |
+          echo "Cleaning workspace..."
+          rm -rf /home/runner/work/_temp/* || true
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'SpotifyHybridRecomandationSystem'
           package: .
+          deployment-method: zip
