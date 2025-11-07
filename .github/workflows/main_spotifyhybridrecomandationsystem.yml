@@ -6,6 +6,10 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  id-token: write        # ✅ Needed for Azure OIDC login
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,6 +57,7 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_112228663629478BBA9F3911EE34948B }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_56F4E51058484433B43A93AC5F2F7967 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_68749AD24C0644F19D2680A4365158E4 }}
+          auth-type: 'id-token'   # ✅ Required for OIDC login
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
