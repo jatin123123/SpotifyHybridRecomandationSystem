@@ -2,8 +2,6 @@
 data/*.csv
 data/*.parquet
 
-# Model files (can be regenerated)
-models/
 
 # Python cache
 __pycache__/
