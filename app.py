@@ -122,22 +122,6 @@ def render_playlist(rows: list[RecommendationResult]) -> None:
         st.warning("No tracks matched the current filters. Try expanding the ranges.")
         return
     
-    # Add analytics section with charts
-    st.subheader("� Playlist Analytics")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader("Audio Features Profile")
-        audio_chart = create_audio_features_chart(rows)
-        st.plotly_chart(audio_chart, use_container_width=True)
-    
-    with col2:
-        st.subheader("Recommendation Scores")
-        score_chart = create_score_distribution_chart(rows)
-        st.plotly_chart(score_chart, use_container_width=True)
-    
-    st.divider()
     st.subheader("🎵 Recommended Tracks")
     
     # Check if any preview URLs are available
@@ -158,20 +142,6 @@ def render_playlist(rows: list[RecommendationResult]) -> None:
             # Audio preview (if available) - place prominently
             if item.preview_url and isinstance(item.preview_url, str) and item.preview_url.startswith("http"):
                 st.audio(item.preview_url, format="audio/mp3")
-            
-            # Show audio features
-            tags = []
-            if item.metadata.get("tempo") is not None:
-                tags.append(f"🎵 Tempo: {item.metadata['tempo']:.0f} BPM")
-            if item.metadata.get("valence") is not None:
-                tags.append(f"😊 Valence: {item.metadata['valence']:.2f}")
-            if item.metadata.get("energy") is not None:
-                tags.append(f"⚡ Energy: {item.metadata['energy']:.2f}")
-            if item.metadata.get("instrumentalness") is not None:
-                tags.append(f"🎸 Instrumentalness: {item.metadata['instrumentalness']:.2f}")
-            
-            if tags:
-                st.caption(" | ".join(tags))
             
             # Show recommendation scores with better explanation
             col1, col2 = st.columns([2, 1])
