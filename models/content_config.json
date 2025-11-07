@@ -1,0 +1,18 @@
+{
+  "numeric_columns": [
+    "acousticness",
+    "danceability",
+    "energy",
+    "instrumentalness",
+    "liveness",
+    "loudness",
+    "speechiness",
+    "tempo",
+    "valence",
+    "duration_ms",
+    "key",
+    "mode",
+    "time_signature"
+  ],
+  "text_column": "tags_text"
+}
